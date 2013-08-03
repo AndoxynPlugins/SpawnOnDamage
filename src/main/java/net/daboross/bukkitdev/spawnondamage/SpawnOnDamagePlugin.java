@@ -20,7 +20,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.MetricsLite;
@@ -52,10 +55,13 @@ public class SpawnOnDamagePlugin extends JavaPlugin implements Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("")) {
-        } else {
-            sender.sendMessage("SpawnOnDamage doesn't know about the command /" + cmd.getName());
-        }
+        sender.sendMessage("SpawnOnDamage doesn't know about the command /" + cmd.getName());
         return true;
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent evt) {
+        Entity e = evt.getEntity();
+        e.teleport(e.getWorld().getSpawnLocation());
     }
 }
